@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  text-align: center;
+  padding: 20px 0;
+}
+
+:host .star {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+}
+
+:host .star:active {
+  outline: none;
+}
+
+:host .active {
+  background: url(star.svg) no-repeat;
+}
+
+:host .inactive {
+  background: url(star-grey.svg) no-repeat;
+}
+

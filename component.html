@@ -1,0 +1,100 @@
+<polymer-element name="ceci-stars-component" extends="ceci-element" attributes="rating editable max">
+  <template>
+    <link rel="stylesheet" href="component.css">
+    <template repeat="{{star in maxStars}}">
+      <button class="star {{star.className}}" data-index="{{star.index}}" on-click="{{setRating}}"></button>
+
+    </template>
+
+    <shadow></shadow>
+    <script type="text/json" id="ceci-definition">
+      {
+        "name": "stars-component",
+        "tags": "stars-component",
+        "thumbnail": "./thumbnail.png",
+        "description": "Allows users to rate something",
+        "broadcasts": {
+          "ratingChanged": {
+            "label": "Rating Changed",
+            "description": "Rating was changed"
+          }
+        },
+        "listeners": {
+
+        },
+        "attributes": {
+          "rating": {
+            "description": "rating",
+            "label": "Rating",
+            "editable": "number",
+            "min": 1
+          },
+          "editable": {
+            "description": "is it editable",
+            "label": "Editable",
+            "editable": "boolean"
+          },
+          "max": {
+            "label": "max",
+            "editable": "number"
+          }
+        }
+      }
+    </script>
+  </template>
+    <script>
+
+      Polymer("ceci-stars-component", {
+        ready: function() {
+          this.rating = Number(this.rating);
+          this.setMaxStars();
+          this.super();
+
+          window.foo = this;
+        },
+
+        rating: 5,
+        editable: "true",
+        max: 5,
+
+        isActive: function(index) {
+          if (index <= this.rating) {
+            return 'active';
+          } else {
+            return 'inactive';
+          }
+        },
+
+        setMaxStars: function() {
+          if (this.editable !== "true") {
+            return;
+          }
+          this.maxStars = new Array();
+          for (var i = 0; i < this.max; i++) {
+            this.maxStars.push({
+              index: i + 1,
+              className: this.isActive(i)
+            });
+          }
+        },
+
+        maxChanged: function() {
+          this.setMaxStars();
+        },
+
+        setRating: function(e) {
+          this.rating = Number(e.target.getAttribute('data-index'));
+          this.setMaxStars();
+        },
+
+        ratingChanged: function() {
+          if (Number(this.rating) > Number(this.max)) {
+            this.rating = this.max;
+          }
+          console.log(this.rating);
+          this.setMaxStars();
+          this.broadcast("ratingChanged", this.rating);
+        }
+      });
+    </script>
+</polymer-element>
