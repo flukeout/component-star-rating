@@ -58,7 +58,7 @@
         max: 5,
 
         isActive: function(index) {
-          if (index <= this.rating) {
+          if (index + 1 <= this.rating) {
             return 'active';
           } else {
             return 'inactive';
