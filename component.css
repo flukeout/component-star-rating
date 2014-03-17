@@ -1,7 +1,9 @@
 :host {
   display: block;
-  text-align: center;
-  padding: 20px 0;
+  padding: 10px;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
 :host .star {
@@ -11,6 +13,17 @@
   background-size: cover;
   border: none;
   cursor: pointer;
+}
+
+:host * {
+  font-size: 15px;
+  font-family: "FiraSans", sans-serif;
+}
+
+:host label {
+  text-align: left;
+  margin-bottom: 3px;
+  display: block;
 }
 
 :host .star:active {
@@ -24,4 +37,3 @@
 :host .inactive {
   background: url(star-grey.svg) no-repeat;
 }
-

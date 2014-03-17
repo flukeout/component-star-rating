@@ -1,9 +1,10 @@
-<polymer-element name="ceci-stars-component" extends="ceci-element" attributes="rating editable max">
+<polymer-element name="ceci-stars-component" extends="ceci-element" attributes="rating editable max inputname">
   <template>
     <link rel="stylesheet" href="component.css">
+
+    <label>{{inputname}}</label>
     <template repeat="{{star in maxStars}}">
       <button class="star {{star.className}}" data-index="{{star.index}}" on-click="{{setRating}}"></button>
-
     </template>
 
     <shadow></shadow>
@@ -23,6 +24,13 @@
 
         },
         "attributes": {
+          "inputname": {
+            "label": "Input Name & Label",
+            "description": "The name of this field, helpful when saving data.",
+            "editable": "text",
+            "listener": true,
+            "defaultListener": false
+          },
           "rating": {
             "description": "rating",
             "label": "Rating",
@@ -65,6 +73,11 @@
           }
         },
 
+        inputnameChanged : function(){
+          var event = new CustomEvent("inputnameChanged");
+          this.dispatchEvent(event);
+        },
+
         setMaxStars: function() {
           if (this.editable !== "true") {
             return;
@@ -87,11 +100,18 @@
           this.setMaxStars();
         },
 
+        setValue: function(v){
+          this.rating = v;
+        },
+
+        get value() {
+          return this.rating;
+        },
+
         ratingChanged: function() {
           if (Number(this.rating) > Number(this.max)) {
             this.rating = this.max;
           }
-          console.log(this.rating);
           this.setMaxStars();
           this.broadcast("ratingChanged", this.rating);
         }
